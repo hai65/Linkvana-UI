@@ -1,0 +1,636 @@
+    @import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Tourney:wght@600&display=swap');
+
+    @font-face {
+        font-family: 'Amarillo USAF';
+        src: url('fonts/amarurgt/amarurgt.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+    font-family: 'Gunplay';
+    src: url('fonts/gunplay/Gunplay-Regular.woff2') format('woff2'),
+        url('fonts/gunplay/Gunplay-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+
+    html, body, #root {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+    }
+
+    /* -------------------- Navbar -------------------- */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: black;
+        padding: 10px 20px;
+        display: flex;
+        gap: 20px;
+    }
+
+
+    /* -------------------- Footer -------------------- */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 10px 20px;
+        z-index: 1000;
+    }
+
+    /* -------------------- Main container -------------------- */
+    .main-container {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        display: flex;
+        overflow: hidden;
+        box-sizing: border-box;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* -------------------- Sidebar -------------------- */
+    .sidebar {
+        background-color: black;
+        border: 2px solid black;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        height: 100%;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-logo {
+        text-align: center;
+        padding: 20px 0;
+        background-color: #fff;
+        position: sticky;
+        top: 0;
+        font-size: 38px;
+        font-family: 'Gunplay', sans-serif;
+        white-space: nowrap;
+    }
+
+    /* Sidebar mở rộng */
+    .sidebar.expanded {
+        width: 220px;
+        transition: all 0.3s ease;
+    }
+
+    /* Sidebar thu gọn về bên trái */
+    .sidebar.collapsed {
+        width: 60px;
+        transition: all 0.3s ease;
+        overflow-x: hidden;
+    }
+
+    /* Logo biến mất khi thu gọn */
+    .sidebar.collapsed .sidebar-logo {
+    font-size: 38px; /* giữ nguyên kích thước như khi mở rộng */
+    padding: 20px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+    /* Container của mỗi item (Link) */
+    .sidebar-item-container {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .sidebar-item-container:hover{
+        background-color: lightgray;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .sidebar-item-container.selected {
+        background-color: darkgrey !important;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+
+
+    /* Link nội bộ */
+    .sidebar-item-container a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        text-decoration: none;
+        width: 100%;
+        font-family: 'Amarillo USAF', sans-serif;
+    }
+
+    /* Icon cố định kích thước */
+    .sidebar-icon {
+        font-size: 20px;
+        min-width: 24px;
+        text-align: center;
+    }
+
+    /* Chữ có thể ẩn khi thu gọn */
+    .sidebar-text {
+        font-size: 20px;
+        white-space: nowrap;
+        transition: opacity 0.2s ease, width 0.2s ease;
+    }
+
+    /* Khi thu gọn: ẩn text, giữ icon */
+    .sidebar.collapsed .sidebar-text {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+    }
+
+    /* Khi thu gọn: dồn item ra giữa */
+    .sidebar.collapsed .sidebar-item-container a {
+        justify-content: center;
+        gap: 0;
+    }
+
+
+    /* -------------------- Sidebar Toggle Button -------------------- */
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* logo trái, nút phải */
+        padding-left: 15px;
+        padding-right: 10px;
+        border-bottom: 2px solid black;
+        background-color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .sidebar-toggle-btn {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border: 1px solid white;
+        background-color: white;
+        color: black;
+        font-weight: bold;
+        font-size: 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+    }
+    .sidebar-toggle-btn:hover {
+        transform: scale(1.1);
+    }
+
+    /* Khi sidebar bị thu gọn, nút dịch sang trái */
+    .sidebar.collapsed ~ .sidebar-toggle-btn {
+        left: 60px;
+    }
+
+
+.sidebar-icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: inline-block;
+    min-width: 24px;
+    vertical-align: middle;
+}
+
+
+
+
+    /* -------------------- Page Content -------------------- */
+    #page-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid black;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        box-sizing: border-box;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
+        height: 100%;
+    }
+
+
+
+
+
+    .main-content {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 10px;
+        height: 100%; 
+        box-sizing: border-box;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+
+
+
+
+    /* -------------------------Create Page------------------------- */
+    #header_create_container{
+        height: 83px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;              /* Đồng bộ nền */
+        border-bottom: 2px solid black;
+        padding: 0px 10px;
+        font-family: 'Tourney', sans-serif;  /* hoặc cùng font với sidebar */
+        font-size: 40px;                     /* Đồng bộ kích thước */
+        text-align: center;
+        margin: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .content-area {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;   
+        padding: 100px 50px; 
+        flex:1;  
+        background-color: #e0e0e0;
+    }
+
+    .global-create{
+        display: flex;
+        flex-direction: column;
+        flex: 2;
+        background-color: whitesmoke;
+        border-radius: 8px;
+        padding: 20px;
+        /* gap: 20px; */
+    }
+
+
+    .header-content{
+        font-size: 30px;
+        font-family: 'Amarillo USAF', sans-serif;
+    }
+
+    .header-create-content{
+        font-size: 30px;
+        font-family: 'Amarillo USAF', sans-serif;
+        padding: 10px;
+    }
+
+    .dropdown-item{
+        font-family: 'Amarillo USAF', sans-serif;
+        min-width: 200px;
+    }
+
+    .invisible-container{
+        visibility: hidden;
+        flex:1;
+    }
+    .dropdown-container{
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+        padding: 10px;
+        padding-left: 0%;
+        padding-right: 0%;
+        gap: 10px;
+        /* background-color: #2c3e50; */
+    }
+
+    .btn-create-container{
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+    }
+
+    .btn-create:hover{
+        background-color: lightgray;
+        transition: transform 0.2s ease;
+    }
+    .input-url-container{
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+    }
+
+    .input-title-container{
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+    }
+
+    /* -------------------- URLs Page -------------------- */
+
+    
+    
+     .links-content-area {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;   
+        /* padding: 100px 50px;  */
+        flex:1;  
+        background-color: #e0e0e0;
+    }
+    
+    
+    .main-content-links {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 10px;
+        margin-bottom: 15px;
+    }
+
+    .search-container{
+        flex: 10;
+        display: flex;
+        border-radius: 5px;
+        border: 3px solid black;
+    }
+
+    .search-button{
+        background-color: gray;
+        color: white;
+    }
+
+    .links-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+    overflow-y: auto;
+    flex: 2;
+}
+
+.card-row-container{
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+}
+
+.data-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border: 3px solid black;
+}
+
+.card-row {
+    margin-bottom: 8px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    flex: 1;
+    flex-direction: column;
+}
+
+.level-warn { color: orange; }
+.level-error { color: red; }
+.level-fatal { color: darkred; }
+
+.status-active { color: green; }
+.status-deleted { color: gray; text-decoration: line-through; }
+
+    
+    .filter-bar {
+        flex: 0 0 auto;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        z-index: 10;
+        justify-content: center; /* căn giữa theo chiều ngang */
+        align-items: center;     /* căn giữa theo chiều dọc */
+        padding: 10px;
+    }
+
+
+    
+
+    .filter-item-order{
+    font-family: 'Amarillo USAF', sans-serif;
+    min-width: 140px;
+}
+   .filter-item-order input::placeholder {
+    font-family: 'Amarillo USAF', sans-serif;
+    font-size: 20px;
+    color: black;
+}
+.filter-item-order .Select-control {
+    background-color: white; 
+    border: 3px solid black; 
+    color: black;            
+    border-radius: 6px;
+}
+.filter-item-order div[class*="placeholder"] {
+    color: black;
+    font-size: 20px;
+}
+
+.filter-item{
+    font-family: 'Amarillo USAF', sans-serif;
+    min-width: 100px;
+}
+
+.filter-item input::placeholder {
+    font-family: 'Amarillo USAF', sans-serif;
+    font-size: 20px;
+    color: black;
+}
+
+.filter-item .Select-control {
+    background-color: white; 
+    border: 3px solid black; 
+    color: black;            
+    border-radius: 6px;
+}
+
+/* Nếu muốn đổi màu viền toàn bộ khung DatePickerRange */
+.filter-item .DateRangePicker {
+    border: 3px solid black;
+    border-radius: 6px;
+}
+
+
+.filter-item div[class*="placeholder"] {
+    color: black;
+    font-size: 20px;
+}
+
+    .action{
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 4px;
+        line-height: 1;
+        transition: transform 0.1s ease-in-out;
+    }
+
+    .action-btn:hover {
+        transform: scale(1.2);
+    }
+
+    /* -------------------------Statisticsv Page------------------------- */
+
+
+    .analytics-content-area{
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        min-height: 100%;
+        overflow-y: auto;
+    }
+
+    .global-chart-container{
+        display: flex;
+        flex-direction: row;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        min-height: 100%;
+    }
+
+
+    .chart-container {
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        width: 600px;     /* hoặc width: 80%; */
+        height: 400px;    /* tùy theo bạn muốn cao bao nhiêu */
+    }
+
+
+
+
+
+    .modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.modal-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.modal-body {
+  margin: 10px 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.modal-button {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2c3e50;
+  color: white;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  background-color: #34495e;
+}
