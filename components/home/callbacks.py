@@ -50,7 +50,7 @@ def register_home_callbacks(app):
         Output("select-team", "value"),
         Output("select-level", "value"),
         Output("input-title", "value"),
-        Output("cached-table-data", "data", allow_duplicate=True),  # ✅ Thêm dòng này
+        Output("cached-table-data", "data", allow_duplicate=True),  
         Input("btn-create", "n_clicks"),
         Input("btn-close-modal", "n_clicks"),
         State("input-url", "value"),
@@ -122,6 +122,11 @@ def register_home_callbacks(app):
                         no_update
                     )
             else:
-                return {"display": "flex"}, f"❌ Error: {res.text}", {"display": "none"}, no_update, no_update, no_update, no_update, no_update
+                try:
+                    error_msg = res.json().get("message", "Unknown error")
+                except Exception:
+                    error_msg = res.text
+                return {"display": "flex"}, f"❌ {error_msg}", {"display": "none"}, no_update, no_update, no_update, no_update, no_update
+
         except Exception as e:
             return {"display": "flex"}, f"❌ Request failed: {str(e)}", {"display": "none"}, no_update, no_update, no_update, no_update, no_update

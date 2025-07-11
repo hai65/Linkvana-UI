@@ -74,7 +74,7 @@
 
     /* -------------------- Sidebar -------------------- */
     .sidebar {
-        background-color: black;
+        background-color: ghostwhite;
         border: 2px solid black;
         display: flex;
         flex-direction: column;
@@ -87,7 +87,7 @@
     .sidebar-logo {
         text-align: center;
         padding: 20px 0;
-        background-color: #fff;
+        background-color: ghostwhite;
         position: sticky;
         top: 0;
         font-size: 38px;
@@ -127,6 +127,9 @@
         transition: background 0.2s ease;
         margin: 10px;
         border-radius: 5px;
+        filter: drop-shadow(4px 4px 0 #444);
+        background: aqua;
+        border: 3px solid;
     }
 
     .sidebar-item-container:hover{
@@ -148,7 +151,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        color: white;
+        color: black;
         text-decoration: none;
         width: 100%;
         font-family: 'Amarillo USAF', sans-serif;
@@ -189,8 +192,8 @@
         justify-content: space-between; /* logo trái, nút phải */
         padding-left: 15px;
         padding-right: 10px;
-        border-bottom: 2px solid black;
-        background-color: #fff;
+        border-bottom: 3px solid black;
+        background-color: ghostwhite;
         position: sticky;
         top: 0;
         z-index: 10;
@@ -202,8 +205,8 @@
         width: 32px;
         height: 32px;
         min-width: 32px;
-        border: 1px solid white;
-        background-color: white;
+        border: 1px solid ghostwhite;
+        background-color: ghostwhite;
         color: black;
         font-weight: bold;
         font-size: 25px;
@@ -230,6 +233,7 @@
     display: inline-block;
     min-width: 24px;
     vertical-align: middle;
+    filter: drop-shadow(4px 4px 0 #444);
 }
 
 
@@ -250,6 +254,8 @@
         max-width: 100%;
         max-height: 100%;
         height: 100%;
+        justify-content: center;
+        background-color: #7DF9FF;
     }
 
 
@@ -307,8 +313,11 @@
         flex: 2;
         background-color: whitesmoke;
         border-radius: 8px;
+        border: 3px solid;
         padding: 20px;
-        /* gap: 20px; */
+        gap: 30px;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+        justify-content: center;
     }
 
 
@@ -317,8 +326,10 @@
         font-family: 'Amarillo USAF', sans-serif;
     }
 
+   
+
     .header-create-content{
-        font-size: 30px;
+        font-size: 50px;
         font-family: 'Amarillo USAF', sans-serif;
         padding: 10px;
     }
@@ -326,13 +337,53 @@
     .dropdown-item{
         font-family: 'Amarillo USAF', sans-serif;
         min-width: 200px;
+        filter: drop-shadow(4px 4px 0 #444);
+        border: 3px solid black;
+        border-radius: 6px;
     }
+
+
+    .dropdown-item .Select-control {
+    min-height: 50px !important;
+    font-size: 18px !important;
+    padding: 0 70px 0 10px !important;  /* chừa chỗ cho 2 nút bên phải */
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+}
+
+/* Placeholder và selected value canh giữa */
+.dropdown-item .Select-placeholder,
+.dropdown-item .Select-value {
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Nút xổ xuống */
+.dropdown-item .Select-arrow-zone {
+    position: absolute !important;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+/* Nút clear (x) */
+.dropdown-item .Select-clear-zone {
+    position: absolute !important;
+    right: 35px; /* nằm trước nút xổ */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
 
     .invisible-container{
         visibility: hidden;
         flex:1;
     }
-    .dropdown-container{
+    .dropdown-container-level{
         max-width: 100%;
         max-height: 100%;
         min-height: 0;
@@ -341,9 +392,65 @@
         padding: 10px;
         padding-left: 0%;
         padding-right: 0%;
-        gap: 10px;
-        /* background-color: #2c3e50; */
+        gap: 20px;
+        z-index: 10;
     }
+
+    .dropdown-container-level label{
+        font-family: 'Amarillo USAF';
+        background-color: white;
+        border: 3px solid;
+        padding: 5px;
+        text-align: center;
+        border-radius: 8px;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+        align-content: center;
+    }
+
+    .dropdown-container-team{
+        max-width: 100%;
+        max-height: 100%;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+        padding: 10px;
+        padding-left: 0%;
+        padding-right: 0%;
+        gap: 20px;
+        z-index: 20;
+    }
+
+    .dropdown-container-team label{
+        font-family: 'Amarillo USAF';
+        background-color: white;
+        border: 3px solid;
+        padding: 5px;
+        text-align: center;
+        border-radius: 8px;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+        align-content: center;
+    }
+
+    .input-url-container label{
+        font-family: 'Amarillo USAF';
+        background-color: white;
+        border: 3px solid;
+        padding: 5px;
+        text-align: center;
+        border-radius: 8px;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    }
+
+    .input-title-container label{
+        font-family: 'Amarillo USAF';
+        background-color: white;
+        border: 3px solid;
+        padding: 5px;
+        text-align: center;
+        border-radius: 8px;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    }
+
 
     .btn-create-container{
         max-width: 100%;
@@ -351,6 +458,9 @@
         min-height: 0;
         min-width: 0;
         display: flex;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+        border: 3px solid;
+        border-radius: 5px;
     }
 
     .btn-create:hover{
@@ -373,6 +483,33 @@
         display: flex;
     }
 
+
+    .create-form{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        border: 5px solid;
+        border-radius: 8px;
+        background-color: lightcyan;
+        flex: 1;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+    .create-header{
+    text-align: center;
+    font-family: 'Amarillo USAF', sans-serif;
+    border-bottom: 5px solid;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+}
+
+.custom-placeholder-input::placeholder {
+    font-family: 'Amarillo USAF';
+    color: #888; /* nếu muốn đổi màu luôn */
+}
+
     /* -------------------- URLs Page -------------------- */
 
     
@@ -386,7 +523,7 @@
         max-height: 100%;   
         /* padding: 100px 50px;  */
         flex:1;  
-        background-color: #e0e0e0;
+        background-color: ghostwhite;
     }
     
     
@@ -400,47 +537,58 @@
         min-width: 0;
         max-width: 100%;
         max-height: 100%;
-        margin: 10px;
-        margin-bottom: 15px;
     }
 
     .search-container{
         flex: 10;
         display: flex;
-        border-radius: 5px;
+        /* border-radius: 5px; */
         border: 3px solid black;
+        box-shadow: 4px 4px 0px 0px #222;
     }
 
     .search-button{
         background-color: gray;
         color: white;
+        width: 60px;
+        font-size: x-large;
     }
 
     .links-card-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 10px;
+    padding: 20px;
     overflow-y: auto;
     flex: 2;
+    background-color: whitesmoke;
 }
 
 .card-row-container{
     display: flex;
     flex-direction: column;
     flex: 4;
+    padding: 10px;
+    border: 4px solid;
+    border-radius: 5px;
+    background-color: snow;
+    font-size: 20px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    gap: 5px
 }
 
 .data-card {
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    background-color: #7DF9FF;
+    border-radius: 10px;
     padding: 15px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    border: 3px solid black;
+    border: 5px solid black;
+    font-family: monospace;
+    gap: 10px
 }
 
 .card-row {
@@ -450,28 +598,73 @@
 .card-actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
-    flex: 1;
+    flex: 0;
     flex-direction: column;
 }
 
-.level-warn { color: orange; }
-.level-error { color: red; }
-.level-fatal { color: darkred; }
+.level-warn { color: orange; font-family: 'Amarillo USAF', sans-serif; font-size: 18px; }
+.level-error { color: red; font-family: 'Amarillo USAF', sans-serif; font-size: 18px;}
+.level-fatal { color: darkred;font-family: 'Amarillo USAF', sans-serif; font-size: 18px;}
 
 .status-active { color: green; }
 .status-deleted { color: gray; text-decoration: line-through; }
 
-    
-    .filter-bar {
+.team-ops {
+    color: #7E57C2;
+    font-size: 18px;
+    font-family: 'Amarillo USAF', sans-serif;
+}
+.team-oms {
+    color: #42A5F5;
+    font-size: 18px;
+    font-family: 'Amarillo USAF', sans-serif;
+}
+.team-tms {
+    color: #5C6BC0;
+    font-size: 18px;
+    font-family: 'Amarillo USAF', sans-serif;
+}
+.team-wms {
+    color: #26C6DA;
+    font-size: 18px;
+    font-family: 'Amarillo USAF', sans-serif;
+}
+  
+    .refresh-button{
+        font-weight: 900;
+        width: 60px;
+        font-size: x-large;
+        border: 1px solid;
+    }
+
+   
+
+    .refresh-button-container{
+        display: flex;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
+    }
+.filter-bar {
         flex: 0 0 auto;
         display: flex;
         gap: 10px;
-        margin-bottom: 10px;
         z-index: 10;
         justify-content: center; /* căn giữa theo chiều ngang */
         align-items: center;     /* căn giữa theo chiều dọc */
         padding: 10px;
+        height: 65.5px;
+        border-bottom: 3px solid;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        /* background-color: aliceblue; */
+        background-color: ghostwhite;
+        /* background-color: lightcyan; */
+        /* background-color: darkcyan; */
+        /* background-color: darkturquoise; */
+        /* background-color: cyan; */
+        /* background-color: powderblue; */
+        /* background-color: aqua; */
     }
 
 
@@ -480,6 +673,7 @@
     .filter-item-order{
     font-family: 'Amarillo USAF', sans-serif;
     min-width: 140px;
+    filter: drop-shadow(4px 4px 0 #444);
 }
    .filter-item-order input::placeholder {
     font-family: 'Amarillo USAF', sans-serif;
@@ -500,6 +694,8 @@
 .filter-item{
     font-family: 'Amarillo USAF', sans-serif;
     min-width: 100px;
+    /* box-shadow: 4px 4px 0px 0px #222; */
+    filter: drop-shadow(4px 4px 0 #444);
 }
 
 .filter-item input::placeholder {
@@ -521,6 +717,11 @@
     border-radius: 6px;
 }
 
+.filter-item .DateInput_input {
+    font-family: 'Amarillo USAF', sans-serif;  
+    font-size: 20px;                         
+    color: #333;                        
+}
 
 .filter-item div[class*="placeholder"] {
     color: black;
@@ -535,18 +736,21 @@
     }
 
     .action-btn {
-        background: none;
-        border: none;
+        background-color: none;
+        border: 2px solid;
+        border-radius: 5px;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 50px;
         padding: 4px;
         line-height: 1;
         transition: transform 0.1s ease-in-out;
+        font-weight: 700;
+        filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
     }
 
-    .action-btn:hover {
+    /* .action-btn:hover {
         transform: scale(1.2);
-    }
+    } */
 
     /* -------------------------Statisticsv Page------------------------- */
 
@@ -557,34 +761,140 @@
         min-height: 0;
         min-width: 0;
         max-width: 100%;
-        min-height: 100%;
+        max-height: 100%;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .global-chart-container{
         display: flex;
         flex-direction: row;
-        min-height: 0;
         min-width: 0;
         max-width: 100%;
-        min-height: 100%;
+        max-height: 100%;
+    }
+
+    .global-pie-chart-container{
+        display: flex;
+        flex-direction: row;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
     }
 
 
-    .chart-container {
-        border: 2px solid black;
+    .pie-chart-container {
+        border: 5px solid black;
         border-radius: 10px;
         padding: 15px;
         margin: 20px 20px;
         background-color: #f9f9f9;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        width: 600px;     /* hoặc width: 80%; */
-        height: 400px;    /* tùy theo bạn muốn cao bao nhiêu */
+        width: 600px;     
+        height: 560px;    
+        flex: 2;
     }
 
+    .chart-container {
+        border: 5px solid black;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        width: 600px;     
+        height: 560px;    
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
 
+     .filter-br{
+        font-size: 50px;
+        font-family: 'Amarillo USAF', sans-serif;
+    }
 
+    .filter-name{
+        font-size: 50px;
+        font-family: 'Amarillo USAF', sans-serif;
+        filter: drop-shadow(4px 4px 0 #444);
+        background-color: white;
+        border: 3px solid;
+        border-radius: 5px;
+    }
 
+     .refresh-button-s{
+        font-weight: 900;
+        width: 60px;
+        filter: drop-shadow(4px 4px 0 #444);
+        font-size: 30px;
+    }
+
+    .refresh-button-container-s{
+        display: flex;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+        max-height: 100%;
+        border: 3px solid;
+        border-radius: 5px;
+    }
+    
+    .hahaha{
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background-color: whitesmoke;
+    }
+    .stat-container {
+        display: flex;
+        gap: 16px;
+        flex: 3;
+        align-items: center;
+        flex-direction: row-reverse;
+        overflow-x: auto;
+        padding: 5px;
+        border-left: 8px solid;
+}
+
+.stat-card {
+    background-color: #f8f9fa;
+    padding: 12px 16px;
+    border-radius: 8px;
+    min-width: 20px;
+    filter: drop-shadow(4px 4px 0 #444);
+    text-align: center;
+    border: 3px solid;
+    font-family: 'Amarillo USAF', sans-serif;  
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #555;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.global-filter-s{
+    flex: 0 0 auto;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    z-index: 10;
+    justify-content: center; /* căn giữa theo chiều ngang */
+    align-items: center;     /* căn giữa theo chiều dọc */
+    padding: 10px;
+}
+
+.filter-item-bar{
+    font-family: 'Amarillo USAF', sans-serif;
+    flex: 1;
+}
 
     .modal {
   position: fixed;
@@ -610,10 +920,12 @@
   font-weight: bold;
   margin-bottom: 10px;
   font-size: 20px;
+  font-family: 'Amarillo USAF', sans-serif;
 }
 
 .modal-body {
   margin: 10px 0;
+  font-family: 'Amarillo USAF', sans-serif;
 }
 
 .modal-footer {
@@ -629,8 +941,202 @@
   background-color: #2c3e50;
   color: white;
   cursor: pointer;
+  font-family: 'Amarillo USAF', sans-serif;
+  text-decoration: none !important;
+  font-size: 15px;
 }
 
 .modal-button:hover {
   background-color: #34495e;
+}
+
+
+
+/* -------------------------Update Page------------------------- */
+
+.update-form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: aqua;
+}
+
+.update-header{
+    text-align: center;
+    font-family: 'Amarillo USAF', sans-serif;
+    /* font-size: 50px; */
+    border-bottom: 5px solid;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.form-group-team{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    flex: 2;
+    align-items: center;
+    z-index: 10;
+}
+
+
+.form-group-team label{
+    font-family: 'Amarillo USAF';
+    font-weight: 300;
+    font-size: 30px;
+    background-color: white;
+    border: 3px solid;
+    border-radius: 5px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    padding: 5px;
+}
+
+
+.form-group-level{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    flex: 2;
+    align-items: center;
+}
+
+
+.form-group-level label{
+    font-family: 'Amarillo USAF';
+    font-weight: 300;
+    font-size: 30px;
+    background-color: white;
+    border: 3px solid;
+    border-radius: 5px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    padding: 5px;
+}
+
+.form-input{
+    font-family: 'Amarillo USAF', sans-serif;
+    min-width: 140px;
+    filter: drop-shadow(4px 4px 0 #444);
+    border: 3px solid black;
+    border-radius: 6px;
+}
+.form-input-title{
+    flex: 1;
+    min-height: 50px;
+    font-family: monospace;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    border: 3px solid black;
+    border-radius: 6px;
+}
+
+.form-group-title{
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.form-group-title label{
+    font-family: 'Amarillo USAF';  
+    font-weight: 300;
+    font-size: 30px;
+    background-color: white;
+    border: 3px solid;
+    border-radius: 5px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    padding: 5px;
+}
+
+
+
+.update-btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 30px;
+    padding-bottom: 10px;
+    padding-right: 0px;
+}
+
+
+.read-only-container{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.read-only-container label{
+    font-family: 'Amarillo USAF';
+    font-weight: 300;
+    font-size: 30px;
+    background-color: white;
+    border: 3px solid;
+    border-radius: 5px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    padding: 5px;
+}
+
+.update-border{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: white;
+    border: 5px solid;
+    border-radius: 5px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+}
+
+.read-only-info{
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    padding: 10px;
+    border: 3px solid;
+    border-radius: 6px;
+    background-color: snow;
+    font-size: 20px;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    gap: 10px;
+}
+
+.submit-btn{
+    height: 100%;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    border: 3px solid;
+    border-radius: 6px;
+    font-family: 'Amarillo USAF';
+    font-size: 30px;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0FFF50;
+    filter: drop-shadow(rgb(34, 34, 34) 6px 6px 0px);
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+.cancel-btn{
+    height: 100%;
+    filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
+    border: 3px solid;
+    border-radius: 6px;
+    font-family: 'Amarillo USAF';
+    font-size: 50px;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #d6204e;
+    filter: drop-shadow(rgb(34, 34, 34) 6px 6px 0px);
+    transform: translateY(-2px);
+    cursor: pointer;
 }

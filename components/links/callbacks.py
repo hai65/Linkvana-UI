@@ -78,10 +78,15 @@ def render_cards(data):
     # Nếu không có data thật sự -> hiển thị thông báo + 2 card ẩn để giữ layout
     if not data:
         return [
-            html.Div("⚠️ No data found", className="data-card no-data-card", style={
+            html.Div("No data found", className="data-card no-data-card", style={
                 "minWidth": "280px",
                 "padding": "20px",
-                "textAlign": "center"
+                "textAlign": "center",
+                "display": "flex",
+                "justifyContent": "center",  # canh giữa ngang
+                "alignItems": "center",      # canh giữa dọc
+                "height": "100px",            # hoặc tuỳ chỉnh chiều cao
+                "font-family": "Amarillo USAF"
             }),
             html.Div("", className="data-card", style={"visibility": "hidden"}),
             html.Div("", className="data-card", style={"visibility": "hidden"}),
@@ -95,32 +100,43 @@ def render_cards(data):
             html.Div([
 
                 html.Div([
-                    html.Strong("Title: "), html.Span(d["title"])
+                    html.Strong("Title: ", style={"font-family": "Amarillo USAF"}), html.Span(d["title"], style={"font-family": "system-ui"})
                 ], className="card-row"),
                 
                 html.Div([
-                    html.Strong("ID: "), html.Span(str(d["id"]))
+                    html.Strong("ID: ", style={"font-family": "Amarillo USAF"}), html.Span(str(d["id"]), style={"font-family": "Amarillo USAF"})
                 ], className="card-row"),
 
                 html.Div([
-                    html.Strong("Original: "), html.A(truncate_url(d["original_url"]), href=d["original_url"], target="_blank")
+                    html.Strong("Original: ", style={"font-family": "Amarillo USAF"}), html.A(truncate_url(d["original_url"]), href=d["original_url"], target="_blank", style={"font-family": "system-ui"})
                 ], className="card-row"),
 
                 html.Div([
-                    html.Strong("Short: "), html.A(truncate_url(d["short_url"]), href=d["short_url"], target="_blank")
+                    html.Strong("Short: ", style={"font-family": "Amarillo USAF"}), html.A(truncate_url(d["short_url"]), href=d["short_url"], target="_blank", style={"font-family": "system-ui"})
                 ], className="card-row"),
 
                 html.Div([
-                    html.Strong("Team: "), html.Span(d["team"])
+                    html.Strong("Team: ", style={"font-family": "Amarillo USAF"}), html.Span(d["team"], className=f"team-{d['team'].strip().lower()}")
                 ], className="card-row"),
 
                 html.Div([
-                    html.Strong("Level: "), html.Span(d["level"], className=f"level-{d['level'].strip().lower()}")
+                    html.Strong("Level: ", style={"font-family": "Amarillo USAF"}), html.Span(d["level"], className=f"level-{d['level'].strip().lower()}")
                 ], className="card-row"),
 
                 html.Div([
-                    html.Strong("Created: "), html.Span(d["created"])
+                    html.Strong("Created: ", style={"font-family": "Amarillo USAF"}),
+
+                    # 🟢 Phần ngày: giữ nguyên
+                    html.Span(d["created"].split(" ")[0] + " ", style={"font-family": "Amarillo USAF"}),
+
+                    # 🟠 Phần giờ: tô màu
+                    html.Span(d["created"].split(" ")[1], style={
+                        "font-family": "Amarillo USAF",
+                        "color": "#FF5722",        # 👈 màu cam nổi bật
+                        "font-weight": "bold"
+                    }),
                 ], className="card-row"),
+
             ], className="card-row-container"),
 
             html.Div([
@@ -130,25 +146,25 @@ def render_cards(data):
                     className="clipboard-icon",
                     style={
                         "display": "inline-block",
-                        "marginLeft": "5px",
                         "padding": "6px 10px",
-                        "fontSize": "18px",              # 👈 làm text/icon to hơn
+                        "fontSize": "50px",              # 👈 làm text/icon to hơn
                         "backgroundColor": "#f0f0f0",    # 👈 màu nền
-                        "border": "1px solid #ccc",
+                        "border": "2px solid black",
                         "borderRadius": "6px",
                         "cursor": "pointer",
-                        "text-align": "center"
+                        "text-align": "center",
+                        "filter": "drop-shadow(rgb(68, 68, 68) 4px 4px 0px)"
                     },
                     title="Click để copy"
                 ),
-                html.Button("🔥", id={'type': 'hard-btn', 'index': d["id"]}, n_clicks=0, className="action-btn"),
+                html.Button("🗑", id={'type': 'hard-btn', 'index': d["id"]}, n_clicks=0, className="action-btn"),
                 html.Button("✎", id={'type': 'update-btn', 'index': d["id"]}, n_clicks=0, className="action-btn"),
             ], className="card-actions"),
             
         ], className="data-card"))
 
     # ✅ Nếu có ít hơn 3 card -> thêm card ẩn để giữ layout
-    while len(cards) < 3:
+    while len(cards) < 10:
         cards.append(html.Div("", className="data-card", style={"visibility": "hidden"}))
 
     return cards
@@ -261,20 +277,20 @@ def register_links_callbacks(app):
 
 
     @app.callback(
-    Output("update-status", "children"),
+    Output("update-confirm-dialog", "message"),
+    Output("update-confirm-dialog", "displayed"),
     Input("update-submit-btn", "n_clicks"),
     State("selected-row-id", "data"),
     State("update-title", "value"),
     State("update-team", "value"),
     State("update-level", "value"),
-    State("cached-table-data", "data"),  # 🆕 cần lấy bản gốc để fallback
+    State("cached-table-data", "data"),
     prevent_initial_call=True
 )
     def handle_submit_update(n_clicks, row_id, title, team, level, table_data):
         if not row_id:
-            return "❌ Không xác định được ID."
+            return "❌ Không xác định được ID.", True
 
-        # 🔍 Tìm bản gốc
         original = next((d for d in table_data if d["id"] == row_id), {})
 
         payload = {
@@ -289,11 +305,12 @@ def register_links_callbacks(app):
             response = requests.put(url, json=payload, timeout=10)
 
             if response.status_code == 200:
-                return "✅ Cập nhật thành công!"
+                return "✅ Cập nhật thành công!", True
             else:
-                return f"❌ Lỗi cập nhật: {response.status_code} - {response.text}"
+                return f"❌ Lỗi cập nhật: {response.status_code} - {response.text}", True
         except Exception as e:
-            return f"❌ Exception: {str(e)}"
+            return f"❌ Exception: {str(e)}", True
+
 
 
     
