@@ -13,7 +13,7 @@ def parse_date(d):
     if not d:
         return None
     d = d.strip().rstrip("Z")
-    for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f"):
+    for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%d/%m/%Y %H:%M"):
         try:
             return datetime.strptime(d, fmt)
         except:
@@ -27,15 +27,15 @@ def truncate_url(url, max_len=33):
 
 
 
+from dateutil import parser  # cần cài: pip install python-dateutil
+
 def normalize_row(row):
     raw_date = row.get("createDate", "")
     try:
-        # Loại bỏ 'Z' nếu có (UTC marker), và parse microsecond
-        if raw_date.endswith("Z"):
-            raw_date = raw_date[:-1]
-        dt = datetime.strptime(raw_date, "%Y-%m-%dT%H:%M:%S.%f")
-        dt_vietnam = dt + timedelta(hours=7)  # 👉 chuyển sang giờ Việt Nam
-        created = dt_vietnam.strftime("%Y-%m-%d %H:%M:%S")
+        # ✅ Tự động parse ISO format
+        dt = parser.isoparse(raw_date)
+        dt_vietnam = dt + timedelta(hours=7)
+        created = dt_vietnam.strftime("%d/%m/%Y %H:%M")
     except:
         created = raw_date  # fallback nếu lỗi
     return {
@@ -47,6 +47,7 @@ def normalize_row(row):
         "title": row.get("title", ""),
         "created": created,
     }
+
 
 def filter_data(data, team, level, start, end, search, order=None):
     if search:
@@ -95,6 +96,11 @@ def render_cards(data):
 
     cards = []
     for d in data:
+    # 🔒 Chống lỗi .split() index out of range
+        created_parts = d["created"].split(" ") if d.get("created") else ["N/A"]
+        created_date = created_parts[0] if len(created_parts) > 0 else "N/A"
+        created_time = created_parts[1] if len(created_parts) > 1 else ""
+
         cards.append(html.Div([
             
             html.Div([
@@ -123,19 +129,17 @@ def render_cards(data):
                     html.Strong("Level: ", style={"font-family": "Amarillo USAF"}), html.Span(d["level"], className=f"level-{d['level'].strip().lower()}")
                 ], className="card-row"),
 
+               
                 html.Div([
                     html.Strong("Created: ", style={"font-family": "Amarillo USAF"}),
-
-                    # 🟢 Phần ngày: giữ nguyên
-                    html.Span(d["created"].split(" ")[0] + " ", style={"font-family": "Amarillo USAF"}),
-
-                    # 🟠 Phần giờ: tô màu
-                    html.Span(d["created"].split(" ")[1], style={
+                    html.Span(created_date + " ", style={"font-family": "Amarillo USAF"}),
+                    html.Span(created_time, style={
                         "font-family": "Amarillo USAF",
-                        "color": "#FF5722",        # 👈 màu cam nổi bật
+                        "color": "#FF5722",
                         "font-weight": "bold"
                     }),
                 ], className="card-row"),
+
 
             ], className="card-row-container"),
 

@@ -15,3 +15,6 @@ GET_EVENTS       = f"{BASE_API}/ShortUrl"
 SOFT_DELETE      = f"{BASE_API}/ShortUrl/softdel"
 HARD_DELETE      = f"{BASE_API}/ShortUrl/"
 UPDATE           = f"{BASE_API}/ShortUrl/"
+IMPORT           = f"{BASE_API}/ShortUrl/import"
+EXPORT           = f"{BASE_API}/ShortUrl/export"
+

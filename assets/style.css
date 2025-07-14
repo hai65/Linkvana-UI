@@ -144,6 +144,11 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
+    .sidebar-items{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 
 
     /* Link nội bộ */
@@ -183,6 +188,26 @@
         justify-content: center;
         gap: 0;
     }
+
+
+    .sidebar-button {
+    all: unset; /* xoá default style của button */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    font-family: 'Amarillo USAF', sans-serif;
+    cursor: pointer;
+}
+
+.sidebar.collapsed .sidebar-button {
+    justify-content: center;
+    gap: 0;
+}
+
+
+
 
 
     /* -------------------- Sidebar Toggle Button -------------------- */
