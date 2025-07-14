@@ -157,7 +157,7 @@ def handle_import(contents, filename):
             msg = response.json().get("message", "")
         except Exception:
             msg = ""
-        full_message = f"✅ Import successful!\n{msg}\nPlease reload the page to view the updated data."
+        full_message = f"✅ Import successful!\n{msg}\nPlease reload the page to view the new data."
 
         return None, full_message, True
     else:
