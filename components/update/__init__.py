@@ -25,7 +25,7 @@ def render(data=None, team_options=None, level_options=None):
 
                     html.Div([
                         html.Strong("Original: ", style={"font-family": "Amarillo USAF"}), html.A(data.get("original_url", ""), href=data.get("original_url", "#"), target="_blank")
-                    ], style={"marginBottom": "6px"}),
+                    ], style={"marginBottom": "6px", "display": "flex"}),
 
                     html.Div([
                         html.Strong("Short: ", style={"font-family": "Amarillo USAF"}), html.A(data.get("short_url", ""), href=data.get("short_url", "#"), target="_blank")
@@ -109,4 +109,4 @@ def render(data=None, team_options=None, level_options=None):
                 )
              )
         ], className="update-border")
-], className="update-form", style={"margin": "300px", "padding": "30px"})
+], className="update-form", style={"margin": "200px", "padding": "30px"})
