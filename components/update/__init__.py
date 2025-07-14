@@ -109,4 +109,4 @@ def render(data=None, team_options=None, level_options=None):
                 )
              )
         ], className="update-border")
-], className="update-form", style={"margin": "auto", "padding": "30px"})
+], className="update-form", style={"margin": "300px", "padding": "30px"})

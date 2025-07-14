@@ -1130,6 +1130,8 @@
     font-size: 20px;
     filter: drop-shadow(rgb(68, 68, 68) 4px 4px 0px);
     gap: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .submit-btn{
