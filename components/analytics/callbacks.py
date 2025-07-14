@@ -102,6 +102,8 @@ def register_analytics_callbacks(app):
         if not df_date.empty:
             pie_fig = px.pie(df_date, names="team", title="Team-wise Ratio", hole=0.4)
             pie_fig.update_traces(
+                textinfo='percent+label',              
+                textfont_size=20,                     
                 marker=dict(
                     colors=[TEAM_COLORS.get(t, "#888888") for t in df_date["team"]],
                     line=dict(color="black", width=4)  # Thêm viền đen
@@ -111,6 +113,8 @@ def register_analytics_callbacks(app):
 
             level_pie = px.pie(df_date, names="level", title="Level-wise Ratio", hole=0.4)
             level_pie.update_traces(
+                textinfo='percent+label',             
+                textfont_size=20,                     
                 marker=dict(
                     colors=[LEVEL_COLORS.get(l, "#888888") for l in df_date["level"]],
                     line=dict(color="black", width=4)  # Thêm viền đen
