@@ -6,8 +6,8 @@ UPDATE_PAGE     = "/update"
 
 
 # ====== API Base URL ======
+# BASE_API = "http://localhost:8080/api" #local
 BASE_API = "http://alm-api/api"
-
 
 # ====== API Endpoints ======
 CREATE_SHORTLINK = f"{BASE_API}/ShortUrl"
