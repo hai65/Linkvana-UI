@@ -13,7 +13,7 @@ def parse_date(d):
     if not d:
         return None
     d = d.strip().rstrip("Z")
-    for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%d/%m/%Y %H:%M"):
+    for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S","%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%d/%m/%Y %H:%M"):
         try:
             return datetime.strptime(d, fmt)
         except:
@@ -35,7 +35,7 @@ def normalize_row(row):
         # ✅ Tự động parse ISO format
         dt = parser.isoparse(raw_date)
         dt_vietnam = dt + timedelta(hours=7)
-        created = dt_vietnam.strftime("%d/%m/%Y %H:%M")
+        created = dt_vietnam.strftime("%Y-%m-%d %H:%M:%S")
     except:
         created = raw_date  # fallback nếu lỗi
     return {
