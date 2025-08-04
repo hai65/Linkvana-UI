@@ -12,24 +12,23 @@ def parse_date(d):
     if not d:
         return None
     d = d.strip().rstrip("Z")
-    for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f"):
+    for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S","%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%d/%m/%Y %H:%M"):
         try:
             return datetime.strptime(d, fmt)
         except:
             continue
     return None
 
+from dateutil import parser 
 
 def normalize_row(row):
     raw_date = row.get("createDate", "")
     try:
-        if raw_date.endswith("Z"):
-            raw_date = raw_date[:-1]
-        dt = datetime.strptime(raw_date, "%Y-%m-%dT%H:%M:%S.%f")
+        dt = parser.isoparse(raw_date)
         dt_vietnam = dt + timedelta(hours=7)
         created = dt_vietnam.strftime("%Y-%m-%d %H:%M:%S")
     except:
-        created = raw_date
+        created = raw_date 
     return {
         "id": row.get("id"),
         "original_url": row.get("originalUrl"),

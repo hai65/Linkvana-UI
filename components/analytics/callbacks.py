@@ -2,7 +2,8 @@ from dash import Input, Output
 import plotly.express as px
 import pandas as pd
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
+
 from dash.exceptions import PreventUpdate
 from endpoints import GET_EVENTS
 
@@ -12,10 +13,25 @@ TEAM_COLORS = {"OPS": "#7E57C2", "OMS": "#42A5F5", "TMS": "#5C6BC0", "WMS": "#26
 LEVEL_COLORS = {"Warn": "orange", "Error": "#F44336", "Fatal": "#8B0000"}
 
 def parse_date_safe(d):
-    try:
-        return datetime.strptime(d, "%Y-%m-%d")
-    except:
+    if not d:
         return None
+    d = d.strip().rstrip("Z")
+    for fmt in (
+        "%Y-%m-%d",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%dT%H:%M:%S",
+        "%Y-%m-%dT%H:%M:%S.%f",
+        "%d/%m/%Y %H:%M",
+    ):
+        try:
+            return datetime.strptime(d, fmt)
+        except:
+            continue
+    return None
+
+def to_vietnam_time(dt):
+    return dt + timedelta(hours=7) if dt else None
+
 
 def apply_chart_style(fig):
     fig.update_layout(
@@ -80,7 +96,7 @@ def register_analytics_callbacks(app):
             raise PreventUpdate
 
         def match_by_date(d):
-            created = parse_date_safe(d.get("createDate", "")[:10])
+            created = to_vietnam_time(parse_date_safe(d.get("createDate", "")))
             if start_date:
                 start_dt = parse_date_safe(start_date)
                 if created and created < start_dt:
@@ -90,6 +106,7 @@ def register_analytics_callbacks(app):
                 if created and created > end_dt:
                     return False
             return True
+
 
         def match_by_date_and_team(d):
             if team and d.get("team") != team:
