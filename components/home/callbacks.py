@@ -1,4 +1,4 @@
-from dash import Input, Output, State, html, callback_context, no_update
+from dash import Input, Output, State, callback_context, no_update
 import requests
 from endpoints import CREATE_SHORTLINK, GET_EVENTS
 import dash
@@ -100,7 +100,6 @@ def register_home_callbacks(app):
         try:
             res = requests.post(API_URL, json=payload)
             if res.status_code == 200:
-                # ✅ Tạo thành công -> gọi lại API GET
                 response = requests.get(f"{GET_URL}?page=1&pageSize=999999", timeout=10)
                 if response.status_code == 200:
                     data = response.json().get("data", [])

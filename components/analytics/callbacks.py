@@ -29,10 +29,10 @@ def apply_chart_style(fig):
         title=dict(
             font=dict(
                 family="Amarillo USAF, sans-serif",
-                size=24,        # 👉 chỉnh size lớn hơn ở đây
+                size=24,        
                 color="#222"
             ),
-            x=0.5,             # 👉 căn giữa tiêu đề (tùy chọn)
+            x=0.5,           
             xanchor='center'
         )
     )
@@ -106,7 +106,7 @@ def register_analytics_callbacks(app):
                 textfont_size=20,                     
                 marker=dict(
                     colors=[TEAM_COLORS.get(t, "#888888") for t in df_date["team"]],
-                    line=dict(color="black", width=4)  # Thêm viền đen
+                    line=dict(color="black", width=4) 
                 )
             )
             pie_fig = apply_chart_style(pie_fig)
@@ -117,7 +117,7 @@ def register_analytics_callbacks(app):
                 textfont_size=20,                     
                 marker=dict(
                     colors=[LEVEL_COLORS.get(l, "#888888") for l in df_date["level"]],
-                    line=dict(color="black", width=4)  # Thêm viền đen
+                    line=dict(color="black", width=4) 
                 )
             )
 

@@ -27,17 +27,16 @@ def truncate_url(url, max_len=33):
 
 
 
-from dateutil import parser  # cần cài: pip install python-dateutil
+from dateutil import parser 
 
 def normalize_row(row):
     raw_date = row.get("createDate", "")
     try:
-        # ✅ Tự động parse ISO format
         dt = parser.isoparse(raw_date)
         dt_vietnam = dt + timedelta(hours=7)
         created = dt_vietnam.strftime("%Y-%m-%d %H:%M:%S")
     except:
-        created = raw_date  # fallback nếu lỗi
+        created = raw_date 
     return {
         "id": row.get("id"),
         "original_url": row.get("originalUrl"),
@@ -65,7 +64,6 @@ def filter_data(data, team, level, start, end, search, order=None):
             end_dt = end_dt.replace(hour=23, minute=59, second=59)
         data = [d for d in data if parse_date(d["created"]) is not None and parse_date(d["created"]) <= end_dt]
 
-    # ✅ Sắp xếp theo thời gian nếu có chỉ định
     if order == "ASC":
         data.sort(key=lambda x: parse_date(x["created"]) or datetime.min)
     elif order == "DESC":
@@ -76,7 +74,6 @@ def filter_data(data, team, level, start, end, search, order=None):
 
 
 def render_cards(data):
-    # Nếu không có data thật sự -> hiển thị thông báo + 2 card ẩn để giữ layout
     if not data:
         return [
             html.Div("No data found", className="data-card no-data-card", style={
@@ -84,9 +81,9 @@ def render_cards(data):
                 "padding": "20px",
                 "textAlign": "center",
                 "display": "flex",
-                "justifyContent": "center",  # canh giữa ngang
-                "alignItems": "center",      # canh giữa dọc
-                "height": "100px",            # hoặc tuỳ chỉnh chiều cao
+                "justifyContent": "center",  
+                "alignItems": "center",     
+                "height": "100px",            
                 "font-family": "Amarillo USAF"
             }),
             html.Div("", className="data-card", style={"visibility": "hidden"}),
@@ -96,7 +93,6 @@ def render_cards(data):
 
     cards = []
     for d in data:
-    # 🔒 Chống lỗi .split() index out of range
         created_parts = d["created"].split(" ") if d.get("created") else ["N/A"]
         created_date = created_parts[0] if len(created_parts) > 0 else "N/A"
         created_time = created_parts[1] if len(created_parts) > 1 else ""
@@ -151,8 +147,8 @@ def render_cards(data):
                     style={
                         "display": "inline-block",
                         "padding": "6px 10px",
-                        "fontSize": "50px",              # 👈 làm text/icon to hơn
-                        "backgroundColor": "#f0f0f0",    # 👈 màu nền
+                        "fontSize": "50px",              
+                        "backgroundColor": "#f0f0f0",   
                         "border": "2px solid black",
                         "borderRadius": "6px",
                         "cursor": "pointer",
@@ -167,7 +163,6 @@ def render_cards(data):
             
         ], className="data-card"))
 
-    # ✅ Nếu có ít hơn 3 card -> thêm card ẩn để giữ layout
     while len(cards) < 10:
         cards.append(html.Div("", className="data-card", style={"visibility": "hidden"}))
 
@@ -177,12 +172,12 @@ def render_cards(data):
 
 def register_links_callbacks(app):
     
-    
+ 
     @app.callback(
-    Output("cached-table-data", "data"),
-    Output("initial-load-trigger", "data"),
-    Input("initial-load-trigger", "data"),
-    prevent_initial_call=False  # Cho phép chạy khi app vừa load
+        Output("cached-table-data", "data"),
+        Output("initial-load-trigger", "data"),
+        Input("initial-load-trigger", "data"),
+        prevent_initial_call=False  
     )
     def load_initial_data(_):
         try:
@@ -201,31 +196,27 @@ def register_links_callbacks(app):
             print(f"❌ Error loading initial data: {e}")
             return [], datetime.now().isoformat()
     
-    
-    
-    
-    # Callback cập nhật bảng
-    @app.callback(
-    Output('card-container', 'children'),
-    Output('filter-team', 'value'),
-    Output('filter-level', 'value'),
-    Output('filter-date', 'start_date'),
-    Output('filter-date', 'end_date'),
-    Output('filter-search', 'value'),
-    Output('filter-order', 'value'),
 
-    Input('filter-order', 'value'),
-    Input('filter-team', 'value'),
-    Input('filter-level', 'value'),
-    Input('filter-date', 'start_date'),
-    Input('filter-date', 'end_date'),
-    Input('search-btn', 'n_clicks'),
-    Input('refresh-btn', 'n_clicks'),
-    State('filter-search', 'value'),
-    State('cached-table-data', 'data'),  # ✅ Dùng dữ liệu đã normalize từ đây
-    Input("initial-load-trigger", "data"),  # ép chạy lúc đầu
-    prevent_initial_call=False
-)
+    @app.callback(
+        Output('card-container', 'children'),
+        Output('filter-team', 'value'),
+        Output('filter-level', 'value'),
+        Output('filter-date', 'start_date'),
+        Output('filter-date', 'end_date'),
+        Output('filter-search', 'value'),
+        Output('filter-order', 'value'),
+        Input('filter-order', 'value'),
+        Input('filter-team', 'value'),
+        Input('filter-level', 'value'),
+        Input('filter-date', 'start_date'),
+        Input('filter-date', 'end_date'),
+        Input('search-btn', 'n_clicks'),
+        Input('refresh-btn', 'n_clicks'),
+        State('filter-search', 'value'),
+        State('cached-table-data', 'data'),  
+        Input("initial-load-trigger", "data"),  
+        prevent_initial_call=False
+    )
     def update_card(order, team, level, start, end, search_clicks, refresh_clicks, search, data,_):
         triggered_id = ctx.triggered_id
 
@@ -235,15 +226,8 @@ def register_links_callbacks(app):
         if triggered_id == "refresh-btn":
             return render_cards(data), None, None, None, None, "", None
 
-        # if triggered_id == "search-btn":
-        #     filtered = filter_data(data, team=None, level=None, start=None, end=None, search=search, order=None)
-        #     return render_cards(filtered), None, None, None, None, search, None
-
-        # Các bộ lọc khác hoặc lần đầu load
         filtered = filter_data(data, team=team, level=level, start=start, end=end, search=search, order=order)
         return render_cards(filtered), team, level, start, end, search, order
-
-
 
 
     @app.callback(
@@ -258,14 +242,13 @@ def register_links_callbacks(app):
         if not triggered or not data:
             raise PreventUpdate
 
-        # Tìm index của nút vừa được nhấn
         row_id = triggered["index"]
-        # ✅ Kiểm tra xem n_clicks của nút đó có > 0 không
+    
         for i, btn_id in enumerate(ctx.inputs_list[0]):
             if btn_id["id"]["index"] == row_id and n_clicks_list[i] > 0:
                 break
         else:
-            raise PreventUpdate  # Không có nút nào được click thật sự
+            raise PreventUpdate  
 
         selected = next((d for d in data if d["id"] == row_id), None)
         if not selected:
@@ -277,20 +260,17 @@ def register_links_callbacks(app):
         return update_layout(selected, team_options, level_options), row_id
 
 
-
-
-
     @app.callback(
-    Output("update-confirm-dialog", "message"),
-    Output("update-confirm-dialog", "displayed"),
-    Input("update-submit-btn", "n_clicks"),
-    State("selected-row-id", "data"),
-    State("update-title", "value"),
-    State("update-team", "value"),
-    State("update-level", "value"),
-    State("cached-table-data", "data"),
-    prevent_initial_call=True
-)
+        Output("update-confirm-dialog", "message"),
+        Output("update-confirm-dialog", "displayed"),
+        Input("update-submit-btn", "n_clicks"),
+        State("selected-row-id", "data"),
+        State("update-title", "value"),
+        State("update-team", "value"),
+        State("update-level", "value"),
+        State("cached-table-data", "data"),
+        prevent_initial_call=True
+    )
     def handle_submit_update(n_clicks, row_id, title, team, level, table_data):
         if not row_id:
             return "❌ Không xác định được ID.", True
@@ -320,12 +300,12 @@ def register_links_callbacks(app):
     
 
     @app.callback(
-    Output("page-content", "children", allow_duplicate=True),
-    Output("cached-table-data", "data", allow_duplicate=True),  # 👈 lưu lại dữ liệu mới
-    Output("update-status", "children", allow_duplicate=True),
-    Input("update-cancel-btn", "n_clicks"),
-    prevent_initial_call=True
-)
+        Output("page-content", "children", allow_duplicate=True),
+        Output("cached-table-data", "data", allow_duplicate=True), 
+        Output("update-status", "children", allow_duplicate=True),
+        Input("update-cancel-btn", "n_clicks"),
+        prevent_initial_call=True
+    )
     def handle_cancel(n_clicks):
         if not n_clicks:
             raise PreventUpdate
@@ -348,16 +328,14 @@ def register_links_callbacks(app):
             return html.Div("❌ Exception loading data"), [], f"❌ Lỗi tải lại dữ liệu: {str(e)}"
 
     
-    
-
     @app.callback(
-    Output("delete-confirm-dialog", "displayed"),
-    Output("delete-confirm-dialog", "message"),     # 🆕
-    Output("delete-target-id", "data"),
-    Input({"type": "hard-btn", "index": ALL}, "n_clicks"),
-    State("cached-table-data", "data"),             # 🆕 để lấy thêm short_url nếu cần
-    prevent_initial_call=True
-)
+        Output("delete-confirm-dialog", "displayed"),
+        Output("delete-confirm-dialog", "message"),    
+        Output("delete-target-id", "data"),
+        Input({"type": "hard-btn", "index": ALL}, "n_clicks"),
+        State("cached-table-data", "data"),            
+        prevent_initial_call=True
+    )
     def open_delete_confirm(n_clicks_list, data):
         triggered = ctx.triggered_id
 
@@ -366,7 +344,6 @@ def register_links_callbacks(app):
 
         row_id = triggered["index"]
 
-        # ✅ Tìm row để hiển thị thêm thông tin
         row = next((d for d in data if d["id"] == row_id), {})
         short_url = row.get("short_url", "")
 
@@ -375,22 +352,20 @@ def register_links_callbacks(app):
         return True, message, row_id
 
 
-
-
     @app.callback(
-    Output("cached-table-data", "data", allow_duplicate=True),
-    Output("card-container", "children", allow_duplicate=True),
-    Input("delete-confirm-dialog", "submit_n_clicks"),
-    State("delete-target-id", "data"),
-    State("cached-table-data", "data"),
-    State("filter-team", "value"),
-    State("filter-level", "value"),
-    State("filter-date", "start_date"),
-    State("filter-date", "end_date"),
-    State("filter-search", "value"),
-    State("filter-order", "value"),
-    prevent_initial_call=True
-)
+        Output("cached-table-data", "data", allow_duplicate=True),
+        Output("card-container", "children", allow_duplicate=True),
+        Input("delete-confirm-dialog", "submit_n_clicks"),
+        State("delete-target-id", "data"),
+        State("cached-table-data", "data"),
+        State("filter-team", "value"),
+        State("filter-level", "value"),
+        State("filter-date", "start_date"),
+        State("filter-date", "end_date"),
+        State("filter-search", "value"),
+        State("filter-order", "value"),
+        prevent_initial_call=True
+    )
     def confirm_delete(submit_n_clicks, row_id, cached_data, team, level, start, end, search, order):
         if not submit_n_clicks or not row_id or not cached_data:
             raise PreventUpdate
@@ -404,7 +379,6 @@ def register_links_callbacks(app):
             print(f"❌ Exception khi xóa: {e}")
             return cached_data, render_cards(filter_data(cached_data, team, level, start, end, search, order))
 
-        # ✅ Cập nhật cache
         new_data = [d for d in cached_data if d["id"] != row_id]
         filtered = filter_data(new_data, team, level, start, end, search, order)
         return new_data, render_cards(filtered)

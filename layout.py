@@ -8,17 +8,16 @@ def create_layout():
     return html.Div([
         dcc.Location(id='url', refresh=False),
 
-        # ✅ Các Store dùng toàn cục (đặt ở đây tránh trùng lặp giữa các page)
         dcc.Store(id="cached-table-data", data=[]),
         dcc.Store(id="initial-load-trigger", data=True),
         dcc.Store(id="selected-row-id", data=None),
-        dcc.Clipboard(id="clipboard", content="", style={"display": "none"}),  # nếu cần dùng nhiều nơi
+        dcc.Clipboard(id="clipboard", content="", style={"display": "none"}),  
         dcc.Download(id="download-exported-file"),
         dcc.ConfirmDialog(id="import-success-dialog", message=""),
 
 
         html.Div([
-            # Sidebar
+           
             html.Div([
                 html.Div([
                     html.Div("Linkvana", className="sidebar-logo"),
@@ -49,7 +48,7 @@ def create_layout():
 
                         dcc.Upload(
                             id="upload-import-file",
-                            children=html.Div(),  # Không cần children, vì mình overlay lên button thật
+                            children=html.Div(), 
                             multiple=False,
                             accept=".xlsx",
                             style={
@@ -80,7 +79,6 @@ def create_layout():
                 ], className="sidebar-items")
             ], id="sidebar", className="sidebar expanded"),
 
-            # Page content
             html.Div(id='page-content', className="page-content")
         ], className="main-container"),
 
@@ -89,10 +87,10 @@ def create_layout():
             id="delete-confirm-dialog",
             message=""
         )
-
-        
-
     ])
+
+
+
 @callback(
     Output("sidebar", "className"),
     Output("sidebar-toggle", "children"),

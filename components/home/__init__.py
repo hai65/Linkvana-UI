@@ -76,7 +76,7 @@ def render():
                     placeholder='Enter your Original URL *',
                     className='custom-placeholder-input',
                     style={
-                        "fontFamily": "Arial",  # font dùng cho nội dung nhập
+                        "fontFamily": "Arial",  
                         "backgroundColor": "white",
                         "border": "3px solid",
                         "borderRadius": "8px",
@@ -111,7 +111,7 @@ def render():
         ], className="global-create"),
 
         dcc.Loading(
-            html.Div([  # Modal
+            html.Div([ 
                 html.Div([
                     html.Div("Status", className="modal-header"),
                     html.Div(id="modal-body", className="modal-body"),
