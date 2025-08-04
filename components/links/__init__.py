@@ -3,8 +3,7 @@ from dash import html, dcc
 
 def render(data=None):
     return html.Div([
-        # html.Div("Link Management Console", className="header-content"),
-
+        
         html.Div([  
             html.Div([
                 dcc.Loading(

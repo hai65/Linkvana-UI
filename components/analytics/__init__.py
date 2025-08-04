@@ -4,7 +4,6 @@ def render():
     return html.Div([
         
             html.Div([
-                # Thẻ thống kê
                 html.Div("Filter by:", className="filter-name", style={"margin-left": "10px"}),
 
                 dcc.DatePickerRange(id='filter-date-s', className="filter-item"),
@@ -13,7 +12,6 @@ def render():
                     html.Button("⟳", id="refresh-btn", n_clicks=0, className="refresh-button-s"),
                 ], className="refresh-button-container-s"),
 
-                # html.Div("|", className="filter-br"),
 
                 html.Div([
                     html.Div([
@@ -75,7 +73,6 @@ def render():
 
             
          html.Div([
-            # Biểu đồ cột (Bar Chart)
             html.Div([
                 dcc.Dropdown(
                     id='filter-team-s',
@@ -104,11 +101,6 @@ def render():
             ], className="chart-container"),
         ], className="global-chart-container"), 
      ], className="hahaha"),
-
-    
-         
-
-        
 
         dcc.Store(id="cached-chart-data"),
         
